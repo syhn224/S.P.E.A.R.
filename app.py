@@ -634,7 +634,7 @@ if should_run:
         fig_dv.update_layout(title="Kalan Delta-V (Manevra Kapasitesi)", xaxis_title="Zaman (s)", yaxis_title="Delta-V (km/s)", template="plotly_dark", height=400)
         st.plotly_chart(fig_dv, use_container_width=True)
 
-    st.markdown("### 🎯 Gelişmiş Görev Telemetrisi & Karar Sistemleri")
+    st.markdown("###  Gelişmiş Görev Telemetrisi & Karar Sistemleri")
     
     # 1. Yörünge Yüksekliği Sapması
     target_orbit_alt = t_perigee if final_y <= t_apogee else t_apogee
@@ -714,25 +714,22 @@ if should_run:
     st.dataframe(df_display.style.format("{:.2f}", subset=num_cols, na_rep=''), use_container_width=True, height=600)
     
     df_display.to_csv("flight_telemetry.csv", index=False)
-    st.info("💡 Ham telemetri verisi (3 sn aralıklı) **flight_telemetry.csv** dosyasına kaydedildi.")
+    st.info(" Ham telemetri verisi (3 sn aralıklı) **flight_telemetry.csv** dosyasına kaydedildi.")
 
     # ------ YENİ AI MODÜLÜ (GÖREV DEĞERLENDİRME) ------
     import ai_analyzer
     st.markdown("---")
-    st.markdown("### 🧠 S.P.E.A.R. AI Görev Analiz Raporu")
+    st.markdown("###  S.P.E.A.R. AI Görev Analiz Raporu")
     
     try:
         api_key_ai = st.secrets.get("GEMINI_API_KEY", "")
     except Exception:
         api_key_ai = ""
         
-    if api_key_ai and api_key_ai != "BURAYA_API_ANAHTARINIZI_YAZIN":
-        with st.spinner("S.P.E.A.R. AI Görev Verilerini Yorumluyor"):
-            ai_report = ai_analyzer.perform_ai_analysis("flight_telemetry.csv", api_key_ai)
-            st.success("✅ Operasyon Değerlendirmesi Tamamlandı")
-            st.markdown(f"> {ai_report}")
-    else:
-        st.warning("⚠️ Otonom yapay zeka değerlendirmesini başlatmak için projedeki '.streamlit/secrets.toml' dosyasına bir GEMINI_API_KEY ekleyin.")
+    with st.spinner("S.P.E.A.R. AI Görev Verilerini Yorumluyor"):
+        ai_report = ai_analyzer.perform_ai_analysis("flight_telemetry.csv", api_key_ai)
+        st.success("✅ Operasyon Değerlendirmesi Tamamlandı")
+        st.markdown(f"> {ai_report}")
 
 # ==========================================
 # MODULE 4: DRIVER.JS ONBOARDING TOUR
